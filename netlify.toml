@@ -1,0 +1,28 @@
+# This file configures Netlify deployment settings and headers.
+
+# Build settings (optional, Netlify often auto-detects these)
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Header rules to modify the Content Security Policy (CSP)
+[[headers]]
+  # Apply these headers to all paths on your site
+  for = "/*"
+  [headers.values]
+    # WARNING: 'unsafe-eval' reduces security. Use with caution.
+    # This allows string evaluation functions like eval().
+    # Ideally, find and remove the code causing this instead.
+    # This example policy allows:
+    # - Default resources from 'self' (your domain)
+    # - Scripts from 'self' AND allows 'unsafe-eval'
+    # - Styles from 'self' AND allows inline styles ('unsafe-inline')
+    # - Images from 'self' and data URIs
+    # - Connections (API calls) to 'self' and api.anthropic.com
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.anthropic.com;"
+
+    # You might need to adjust other headers Netlify sets by default,
+    # but often just setting the CSP is enough.
+    # Example: If you need other permissions, add them here.
+    # Example: font-src 'self' https://fonts.gstatic.com;
+```
